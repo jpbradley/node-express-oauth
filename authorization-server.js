@@ -54,12 +54,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 Your code here
 */
 app.get('/authorize', function(req, res){
-	console.debug(req.query)
-	var client_id = req.query["client_id"]
-	var client = clients[client_id]
-	if (client_id == null || client == null) {
-		res.status(401)
-	}
 	res.end()
 })
 
