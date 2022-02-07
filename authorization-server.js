@@ -58,7 +58,12 @@ app.get('/authorize', function(req, res){
 	const client = clients[client_id]
 
 	if (!client) {
-		res.status(401).send()
+		res.status(401).send("Invalid client")
+		return
+	}
+
+	if (!containsAll(client.scopes, req.query.scope.split(" "))) {
+		res.status(401).send("Invalid scoping")
 		return
 	}
 
