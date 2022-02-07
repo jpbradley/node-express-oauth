@@ -67,7 +67,10 @@ app.get('/authorize', function(req, res){
 		return
 	}
 
-	res.end()
+	const request_key = randomString()
+	requests[request_key] = req.query
+
+	res.render("login", { client: client, scope: req.query.scope, requestId: request_key })
 })
 
 const server = app.listen(config.port, "localhost", function () {
