@@ -73,6 +73,10 @@ app.get('/authorize', function(req, res){
 	res.render("login", { client: client, scope: req.query.scope, requestId: request_key })
 })
 
+app.post('/approve', function(req, res){
+	res.end()
+})
+
 const server = app.listen(config.port, "localhost", function () {
 	var host = server.address().address
 	var port = server.address().port
