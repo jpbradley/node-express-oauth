@@ -8,6 +8,7 @@ const {
 	decodeAuthCredentials,
 	timeout,
 } = require("./utils")
+const restoreObject = require("sinon/lib/sinon/restore-object")
 
 const config = {
 	port: 9001,
@@ -74,6 +75,28 @@ app.get('/authorize', function(req, res){
 })
 
 app.post('/approve', function(req, res){
+	const username =   req.body.userName
+	const password =   req.body.password
+	const request_id = req.body.requestId
+
+	if (!users[username]) {
+		res.status(401).send()
+		return
+	}
+
+	if (users[username] !== password) {
+		res.status(401).send()
+		return
+	}
+
+	if (!requests[request_id]) {
+		res.status(401).send()
+		return
+	}
+
+	const request = requests[request_id]
+	delete requests[request_id]
+
 	res.end()
 })
 
