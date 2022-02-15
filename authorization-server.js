@@ -97,7 +97,14 @@ app.post('/approve', function(req, res){
 	const request = requests[request_id]
 	delete requests[request_id]
 
-	res.end()
+	const key = randomString()
+	authorizationCodes[key] = { clientReq: request, userName: username }
+
+	const url = new URL(request.redirect_uri)
+	url.searchParams.set('code', key)
+	url.searchParams.set('state', request.state)
+	
+	res.redirect(url)
 })
 
 const server = app.listen(config.port, "localhost", function () {
